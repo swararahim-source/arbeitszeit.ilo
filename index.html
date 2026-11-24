@@ -42,15 +42,17 @@ label.t{display:block;font-size:14px;color:var(--mu);margin-bottom:4px;text-alig
 #sh .dng{width:100%;margin-top:8px;background:none;color:var(--rd)}
 #err{color:var(--rd);font-size:14px;margin-top:8px;text-align:center}
 .on{background:var(--ac)!important;color:#fff!important;border-color:var(--ac)!important}
+.bd{font-size:12px;background:var(--ac);color:#fff;border-radius:6px;padding:1px 6px;vertical-align:middle}
 </style></head>
 <body><main>
 <header><h1 id="ttl"></h1>
-<select id="lb" aria-label="Language" style="font:inherit;padding:8px 10px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--tx)"><option value="de">Deutsch</option><option value="fa">فارسی</option><option value="tr">Türkçe</option></select></header>
+<select id="lb" aria-label="Language" style="font:inherit;padding:8px 10px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--tx)"><option value="de">Deutsch</option><option value="fa">فارسی</option><option value="tr">Türkçe</option><option value="ku">کوردی</option></select></header>
 <div class="mn"><button class="ar" id="mp"></button><b id="ml"></b><button class="ar" id="mx"></button></div>
 <input type="hidden" id="m">
 <div class="card">
- <div class="mu" id="ltot"></div><div class="tot" id="tot"></div><div class="mu" id="dec"></div>
+ <div class="mu" id="ltot"></div><div class="tot" id="tot"></div><div class="mu" id="dec"></div><div class="mu" id="fw" style="margin-top:6px"></div>
  <button class="sec" id="pdf" style="width:100%;margin-top:12px"></button>
+ <button class="sec" id="pdf2" style="width:100%;margin-top:8px"></button>
  <button class="sec" id="bkb" style="width:100%;margin-top:8px"></button>
  <button class="sec" id="rs" style="width:100%;margin-top:8px"></button>
  <input type="file" id="rf" accept=".json,application/json" hidden>
@@ -63,7 +65,7 @@ label.t{display:block;font-size:14px;color:var(--mu);margin-bottom:4px;text-alig
 <div id="sh" hidden>
  <h2 id="shT"></h2>
  <div class="dn"><button class="ar" id="dp"></button><label class="dl"><span id="dtx"></span><input type="date" id="d"></label><button class="ar" id="dn"></button></div>
- <button class="sec" id="uvb" style="width:100%;margin-bottom:12px"></button>
+ <div style="display:flex;gap:8px;margin-bottom:12px"><button class="sec" id="uvb" style="flex:1;font-size:15px;padding:0 8px"></button><button class="sec" id="fwb" style="flex:1;font-size:15px;padding:0 8px"></button></div>
  <div class="tt">
   <div><label class="t" id="ls"></label><input class="big" id="s" inputmode="numeric" placeholder="--:--" maxlength="5" autocomplete="off"></div>
   <div><label class="t" id="le"></label><input class="big" id="e" inputmode="numeric" placeholder="--:--" maxlength="5" autocomplete="off"></div>
@@ -78,11 +80,12 @@ label.t{display:block;font-size:14px;color:var(--mu);margin-bottom:4px;text-alig
 const T={
 de:{dir:"rtl0",ttl:"Arbeitszeit",add:"+ Arbeitszeit eintragen",ne:"Neuer Eintrag",ed:"Eintrag bearbeiten",s:"Beginn",e:"Ende",p:"Pause (Min.)",pa:"+ Pause",sv:"Speichern",del:"Löschen",sure:"Sicher? Nochmal tippen",tot:"Gesamt in diesem Monat",h:"Std.",min:"Min.",days:"Tage",cols:["Datum","Beginn","Ende","Pause","Dauer"],empty:"Noch keine Einträge in diesem Monat.",pdf:"Als PDF exportieren",hint:"",dl:"PDF öffnen",bk:"Datensicherung speichern",rs:"Sicherung wiederherstellen",rsok:"Sicherung wiederhergestellt.",rserr:"Datei konnte nicht gelesen werden.",rem:"Tipp: Bitte einmal im Monat eine Datensicherung speichern.",err:"Bitte Beginn und Ende eingeben, z. B. 0830.",rep:"Arbeitszeitnachweis",loc:"de-DE"},
 fa:{dir:"rtl",ttl:"ساعات کار",add:"+ ثبت ساعت کار",ne:"ثبت جدید",ed:"ویرایش",s:"شروع",e:"پایان",p:"استراحت (دقیقه)",pa:"+ استراحت",sv:"ذخیره",del:"حذف",sure:"مطمئنی؟ دوباره بزن",tot:"مجموع کار در این ماه",h:"ساعت",min:"دقیقه",days:"روز",cols:["تاریخ","شروع","پایان","استراحت","مدت"],empty:"در این ماه موردی ثبت نشده.",pdf:"خروجی PDF",hint:"",dl:"باز کردن PDF",bk:"ذخیره نسخه پشتیبان",rs:"بازیابی نسخه پشتیبان",rsok:"اطلاعات بازیابی شد.",rserr:"فایل خوانده نشد.",rem:"نکته: ماهی یک بار نسخه پشتیبان ذخیره کن.",err:"ساعت شروع و پایان را وارد کن، مثلاً 0830.",rep:"گزارش ساعات کار",loc:"fa-u-ca-gregory-nu-latn"},
-tr:{dir:"ltr",ttl:"Çalışma Saatleri",add:"+ Çalışma saati ekle",ne:"Yeni kayıt",ed:"Kaydı düzenle",s:"Başlangıç",e:"Bitiş",p:"Mola (dk.)",pa:"+ Mola",sv:"Kaydet",del:"Sil",sure:"Emin misin? Tekrar dokun",tot:"Bu ayki toplam",h:"sa",min:"dk",days:"gün",cols:["Tarih","Başlangıç","Bitiş","Mola","Süre"],empty:"Bu ay için kayıt yok.",pdf:"PDF olarak dışa aktar",hint:"",dl:"PDF’yi aç",bk:"Yedek kaydet",rs:"Yedeği geri yükle",rsok:"Yedek geri yüklendi.",rserr:"Dosya okunamadı.",rem:"İpucu: Ayda bir kez yedek kaydet.",err:"Lütfen başlangıç ve bitiş saatini gir, örn. 0830.",rep:"Çalışma Saati Raporu",loc:"tr-TR"}
+tr:{dir:"ltr",ttl:"Çalışma Saatleri",add:"+ Çalışma saati ekle",ne:"Yeni kayıt",ed:"Kaydı düzenle",s:"Başlangıç",e:"Bitiş",p:"Mola (dk.)",pa:"+ Mola",sv:"Kaydet",del:"Sil",sure:"Emin misin? Tekrar dokun",tot:"Bu ayki toplam",h:"sa",min:"dk",days:"gün",cols:["Tarih","Başlangıç","Bitiş","Mola","Süre"],empty:"Bu ay için kayıt yok.",pdf:"PDF olarak dışa aktar",hint:"",dl:"PDF’yi aç",bk:"Yedek kaydet",rs:"Yedeği geri yükle",rsok:"Yedek geri yüklendi.",rserr:"Dosya okunamadı.",rem:"İpucu: Ayda bir kez yedek kaydet.",err:"Lütfen başlangıç ve bitiş saatini gir, örn. 0830.",rep:"Çalışma Saati Raporu",loc:"tr-TR"},
+ku:{dir:"rtl",ttl:"کاتژمێرەکانی کار",add:"+ زیادکردنی کاتی کار",ne:"تۆمارێکی نوێ",ed:"دەستکاریکردن",s:"دەستپێک",e:"کۆتایی",p:"پشوو (خولەک)",pa:"+ پشوو",sv:"پاشەکەوتکردن",del:"سړینەوە",sure:"دڵنیایت؟ دووبارە دەست لێبدە",tot:"کۆی ئەم مانگە",h:"کاتژمێر",min:"خولەک",days:"ڕۆژ",cols:["بەروار","دەستپێک","کۆتایی","پشوو","ماوە"],empty:"لەم مانگەدا هیچ تۆمارێک نییە.",pdf:"دەرهێنانی PDF",hint:"",dl:"کردنەوەی PDF",bk:"پاشەکەوتکردنی پاشپەره",rs:"گەڕاندنەوەی پاشپەره",rsok:"زانیارییەکان گەڕانەوە.",rserr:"فایلەکە نەخوێندرایەوە.",rem:"تێبینی: مانگی جارێک پاشپەره پاشەکەوت بکە.",err:"کاتی دەستپێک و کۆتایی بنووسە، بۆ نموونە 0830.",rep:"ڕاپۆرتی کاتی کار",loc:"de-DE"}
 };
 T.de.dir="ltr";
-const UV={de:"Urlaub",fa:"Urlaub",tr:"İzin"},UVMIN=300;let uv=false;
-function applyUv(){$("uvb").classList.toggle("on",uv);$("uvb").textContent="🏖️ "+UV[lang]+" (+5 "+T[lang].h+")";document.querySelector(".tt").hidden=uv;if(uv){$("bx").hidden=true;$("pa").hidden=true}else{const has=$("p").value!=="";$("bx").hidden=!has;$("pa").hidden=has}}
+const UV={de:"Urlaub",fa:"Urlaub",tr:"İzin",ku:"Urlaub"},UVMIN=300;let uv=false,fe=false;const NF={de:"Keine Fewo-Einträge in diesem Monat.",fa:"در این ماه موردی برای Fewo ثبت نشده.",tr:"Bu ay Fewo kaydı yok.",ku:"لەم مانگەدا تۆماری Fewo نییە."};const OF={de:"ohne Fewo",fa:"بدون Fewo",tr:"Fewo hariç",ku:"بێ Fewo"},GS={de:"Gesamt",fa:"مجموع کل",tr:"Genel toplam",ku:"کۆی گشتی"};
+function applyUv(){$("fwb").classList.toggle("on",fe);$("fwb").textContent="🏠 Fewo";$("uvb").classList.toggle("on",uv);$("uvb").textContent="🏖️ "+UV[lang]+" (+5 "+T[lang].h+")";document.querySelector(".tt").hidden=uv;if(uv){$("bx").hidden=true;$("pa").hidden=true}else{const has=$("p").value!=="";$("bx").hidden=!has;$("pa").hidden=has}}
 const $=id=>document.getElementById(id),z=x=>String(x).padStart(2,"0");
 let lang="de",rows=[],last={s:"08:00",e:"16:30"},editId=null,cur="",sure=false;
 try{lang=localStorage.getItem("az_lang")||"de";rows=JSON.parse(localStorage.getItem("az_rows")||"[]");last=JSON.parse(localStorage.getItem("az_last")||"null")||last}catch(e){}
@@ -94,7 +97,8 @@ const hm=m=>{const t=T[lang];return Math.floor(m/60)+" "+t.h+" "+z(m%60)+" "+t.m
 const fd=s=>s.split("-").reverse().join(".");
 const dt=s=>new Date(s+"T12:00:00");
 const ymd=d=>d.getFullYear()+"-"+z(d.getMonth()+1)+"-"+z(d.getDate());
-function lf(d,o){try{return d.toLocaleDateString(T[lang].loc,o)}catch(e){return d.toLocaleDateString("de-DE",o)}}
+const KM=["کانوونی دووەم","شوبات","ئازار","نیسان","ئایار","حوزەیران","تەممووز","ئاب","ئەیلوول","تشرینی یەکەم","تشرینی دووەم","کانوونی یەکەم"],KW=["یەکشەممە","دووشەممە","سێشەممە","چوارشەممە","پێنجشەممە","هەینی","شەممە"],KS=["یەک","دوو","سێ","چوار","پێنج","هەینی","شەم"];
+function lf(d,o){if(lang==="ku"){const p=[];if(o.weekday)p.push((o.day?KW:KS)[d.getDay()]);if(o.day)p.push(d.getDate());if(o.month)p.push(KM[d.getMonth()]);if(o.year)p.push(d.getFullYear());return p.join(" ")}try{return d.toLocaleDateString(T[lang].loc,o)}catch(e){return d.toLocaleDateString("de-DE",o)}}
 function parseT(v){const d=v.replace(/\D/g,"");if(!d)return null;let h,m;if(d.length<=2){h=+d;m=0}else{h=+d.slice(0,-2);m=+d.slice(-2)}return h>23||m>59?null:z(h)+":"+z(m)}
 ["s","e"].forEach(i=>{
  $(i).oninput=()=>{const d=$(i).value.replace(/\D/g,"").slice(0,4);$(i).value=d.length>2?d.slice(0,-2)+":"+d.slice(-2):d};
@@ -103,7 +107,7 @@ function parseT(v){const d=v.replace(/\D/g,"");if(!d)return null;let h,m;if(d.le
 function tx(){
  const t=T[lang],rtl=t.dir==="rtl";
  document.documentElement.lang=lang;document.documentElement.dir=t.dir;
- $("lb").value=lang;$("ttl").textContent=t.ttl;$("add").textContent=t.add;$("ltot").textContent=t.tot;$("pdf").textContent=t.pdf;
+ $("lb").value=lang;$("ttl").textContent=t.ttl;$("add").textContent=t.add;$("ltot").textContent=t.tot;$("pdf").textContent=t.pdf;$("pdf2").textContent=t.pdf+" – Fewo";
  $("bkb").textContent=t.bk;$("rs").textContent=t.rs;$("ls").textContent=t.s;$("le").textContent=t.e;$("lp").textContent=t.p;$("pa").textContent=t.pa;$("sv").textContent=t.sv;
  $("mp").textContent=$("dp").textContent=rtl?"›":"‹";$("mx").textContent=$("dn").textContent=rtl?"‹":"›";
  render();showDate();
@@ -113,10 +117,11 @@ function render(){
  $("ml").textContent=lf(y,{month:"long",year:"numeric"});
  const list=rows.filter(r=>r.d.startsWith(m)).sort((a,b)=>(a.d+a.s).localeCompare(b.d+b.s));
  const sum=list.reduce((a,r)=>a+dur(r),0);
- $("tot").textContent=hm(sum);
- $("dec").textContent="= "+(sum/60).toFixed(2)+" "+t.h+" · "+new Set(list.map(r=>r.d)).size+" "+t.days;
+ const fs=list.filter(r=>r.f).reduce((a,r)=>a+dur(r),0),ms=sum-fs;$("tot").textContent=hm(ms);
+ $("dec").textContent="= "+(ms/60).toFixed(2)+" "+t.h+" · "+new Set(list.filter(r=>!r.f).map(r=>r.d)).size+" "+t.days;
+ $("fw").textContent=fs?"Fewo: "+hm(fs)+" · "+GS[lang]+": "+hm(sum):"";$("ltot").textContent=t.tot+(fs?" ("+OF[lang]+")":"");
  $("lst").innerHTML=list.length?list.map(r=>{const d=dt(r.d);
-  return "<div class='it' data-i='"+r.id+"'><div class='dd'><b>"+d.getDate()+"</b><span>"+lf(d,{weekday:"short"})+"</span></div><div class='mid'><div class='tm' dir='ltr'>"+(r.u?"🏖️ "+UV[lang]:r.s+" – "+r.e)+"</div>"+(r.p?"<div class='mu'>"+t.cols[3]+" "+r.p+" "+t.min+"</div>":"")+"</div><div class='du'>"+hm(dur(r))+"</div></div>"}).join("")
+  return "<div class='it' data-i='"+r.id+"'><div class='dd'><b>"+d.getDate()+"</b><span>"+lf(d,{weekday:"short"})+"</span></div><div class='mid'><div class='tm' dir='ltr'>"+(r.u?"🏖️ "+UV[lang]:r.s+" – "+r.e)+(r.f?" <span class='bd'>Fewo</span>":"")+"</div>"+(r.p?"<div class='mu'>"+t.cols[3]+" "+r.p+" "+t.min+"</div>":"")+"</div><div class='du'>"+hm(dur(r))+"</div></div>"}).join("")
   :"<div class='empty'>"+t.empty+"</div>";
 }
 function showDate(){$("dtx").textContent=lf(dt(cur||ymd(new Date())),{weekday:"short",day:"numeric",month:"long",year:"numeric"});$("d").value=cur}
@@ -126,7 +131,7 @@ function openSheet(id){
  const t=T[lang],r=rows.find(x=>x.id===id);editId=r?id:null;sure=false;
  cur=r?r.d:ymd(new Date());
  $("shT").textContent=r?t.ed:t.ne;
- $("s").value=r?r.s:"";$("e").value=r?r.e:"";uv=!!(r&&r.u);
+ $("s").value=r?r.s:"";$("e").value=r?r.e:"";uv=!!(r&&r.u);fe=!!(r&&r.f);
  $("p").value=r&&r.p?r.p:"";$("bx").hidden=!(r&&r.p);$("pa").hidden=!!(r&&r.p);
  $("delb").hidden=!r;$("delb").textContent=t.del;$("err").textContent="";
  $("bk").hidden=$("sh").hidden=false;showDate();applyUv();
@@ -137,13 +142,13 @@ $("dp").onclick=()=>shift(-1);$("dn").onclick=()=>shift(1);
 $("d").onchange=()=>{if($("d").value){cur=$("d").value;showDate()}};
 $("add").onclick=()=>openSheet(null);
 $("bk").onclick=closeSheet;
-$("uvb").onclick=()=>{uv=!uv;applyUv()};
+$("uvb").onclick=()=>{uv=!uv;if(uv)fe=false;applyUv()};$("fwb").onclick=()=>{fe=!fe;if(fe)uv=false;applyUv()};$("pdf").onclick=()=>doPdf(false);$("pdf2").onclick=()=>doPdf(true);
 $("lst").onclick=ev=>{const i=ev.target.closest(".it");if(i)openSheet(+i.dataset.i)};
 $("pa").onclick=()=>{$("bx").hidden=false;$("pa").hidden=true;$("p").focus()};
 $("sv").onclick=()=>{
  const s=parseT($("s").value),e=parseT($("e").value),p=parseInt($("p").value)||0;
  if(!uv&&(!s||!e)){$("err").textContent=T[lang].err;return}
- if(editId){const r=rows.find(x=>x.id===editId);Object.assign(r,{d:cur,s:uv?"":s,e:uv?"":e,p:uv?0:p,u:uv})}else rows.push({id:Date.now(),d:cur,s:uv?"":s,e:uv?"":e,p:uv?0:p,u:uv});
+ if(editId){const r=rows.find(x=>x.id===editId);Object.assign(r,{d:cur,s:uv?"":s,e:uv?"":e,p:uv?0:p,u:uv,f:fe})}else rows.push({id:Date.now(),d:cur,s:uv?"":s,e:uv?"":e,p:uv?0:p,u:uv,f:fe});
  if(!uv)last={s,e};save();$("m").value=cur.slice(0,7);closeSheet();render();
 };
 $("delb").onclick=()=>{
@@ -151,9 +156,9 @@ $("delb").onclick=()=>{
  rows=rows.filter(r=>r.id!==editId);save();closeSheet();render();
 };
 $("lb").onchange=()=>{lang=$("lb").value;save();tx()};
-function makePdf(){
+function makePdf(fw){
  const t=T[lang],m=$("m").value,rtl=t.dir==="rtl";
- const list=rows.filter(r=>r.d.startsWith(m)).sort((a,b)=>(a.d+a.s).localeCompare(b.d+b.s));
+ const list=rows.filter(r=>r.d.startsWith(m)&&!!r.f===!!fw).sort((a,b)=>(a.d+a.s).localeCompare(b.d+b.s));
  const sum=list.reduce((a,r)=>a+dur(r),0);
  const W=1240,H=1754,mg=100,lh=48,per=26,off=[0,250,400,550,720];
  const pages=Math.max(1,Math.ceil(list.length/per)),imgs=[];
@@ -162,7 +167,7 @@ function makePdf(){
   const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,W,H);x.fillStyle="#000";
   x.direction=rtl?"rtl":"ltr";x.textAlign=rtl?"right":"left";
   const X=o=>rtl?W-mg-o:mg+o,F="-apple-system,Helvetica,Arial,sans-serif";
-  x.font="bold 44px "+F;x.fillText(t.rep+" – "+m.split("-").reverse().join("/"),X(0),mg+40);
+  x.font="bold 44px "+F;x.fillText((fw?"Fewo – ":"")+t.rep+" – "+m.split("-").reverse().join("/"),X(0),mg+40);
   x.font="26px "+F;x.fillStyle="#555";x.fillText((p+1)+" / "+pages,X(0),mg+85);
   let y=mg+170;x.font="bold 28px "+F;t.cols.forEach((h,i)=>x.fillText(h,X(off[i]),y));
   x.fillStyle="#000";x.fillRect(mg,y+14,W-2*mg,2);y+=lh+8;x.font="28px "+F;
@@ -198,8 +203,11 @@ function makePdf(){
  push(en(s));
  return new Blob(ch,{type:"application/pdf"});
 }
-$("pdf").onclick=async()=>{
- const t=T[lang],blob=makePdf(),name="Arbeitszeit-"+$("m").value+".pdf";
+async function doPdf(fw){
+ const t=T[lang],m=$("m").value;$("hint").textContent="";
+ if(fw&&!rows.some(r=>r.f&&r.d.startsWith(m))){$("hint").textContent=NF[lang];return}
+ let blob;try{blob=makePdf(fw)}catch(e){$("hint").textContent="PDF error: "+e.message;return}
+ const name=(fw?"Fewo-":"Arbeitszeit-")+m+".pdf";
  const file=new File([blob],name,{type:"application/pdf"});
  try{
   if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:name});return}
@@ -220,7 +228,7 @@ $("rf").onchange=async()=>{
  try{
   const j=JSON.parse(await $("rf").files[0].text());if(!Array.isArray(j.rows))throw 0;
   const have=new Set(rows.map(r=>r.id));
-  j.rows.forEach(r=>{if(r&&r.d&&(r.u||(r.s&&r.e))&&!have.has(r.id))rows.push({id:r.id||Date.now()+Math.floor(Math.random()*1e6),d:r.d,s:r.s||"",e:r.e||"",p:r.p||0,u:!!r.u})});
+  j.rows.forEach(r=>{if(r&&r.d&&(r.u||(r.s&&r.e))&&!have.has(r.id))rows.push({id:r.id||Date.now()+Math.floor(Math.random()*1e6),d:r.d,s:r.s||"",e:r.e||"",p:r.p||0,u:!!r.u,f:!!r.f})});
   save();render();$("hint").textContent=T[lang].rsok;
  }catch(e){$("hint").textContent=T[lang].rserr}
  $("rf").value="";
