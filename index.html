@@ -41,6 +41,7 @@ label.t{display:block;font-size:14px;color:var(--mu);margin-bottom:4px;text-alig
 #sh .pri{width:100%;margin-top:10px;min-height:56px;font-size:19px}
 #sh .dng{width:100%;margin-top:8px;background:none;color:var(--rd)}
 #err{color:var(--rd);font-size:14px;margin-top:8px;text-align:center}
+.on{background:var(--ac)!important;color:#fff!important;border-color:var(--ac)!important}
 </style></head>
 <body><main>
 <header><h1 id="ttl"></h1>
@@ -62,9 +63,10 @@ label.t{display:block;font-size:14px;color:var(--mu);margin-bottom:4px;text-alig
 <div id="sh" hidden>
  <h2 id="shT"></h2>
  <div class="dn"><button class="ar" id="dp"></button><label class="dl"><span id="dtx"></span><input type="date" id="d"></label><button class="ar" id="dn"></button></div>
+ <button class="sec" id="uvb" style="width:100%;margin-bottom:12px"></button>
  <div class="tt">
-  <div><label class="t" id="ls"></label><input class="big" id="s" inputmode="numeric" placeholder="08:00" maxlength="5" autocomplete="off"></div>
-  <div><label class="t" id="le"></label><input class="big" id="e" inputmode="numeric" placeholder="16:30" maxlength="5" autocomplete="off"></div>
+  <div><label class="t" id="ls"></label><input class="big" id="s" inputmode="numeric" placeholder="--:--" maxlength="5" autocomplete="off"></div>
+  <div><label class="t" id="le"></label><input class="big" id="e" inputmode="numeric" placeholder="--:--" maxlength="5" autocomplete="off"></div>
  </div>
  <div id="bx" hidden style="margin-top:10px"><label class="t" id="lp"></label><input class="big" id="p" inputmode="numeric" placeholder="0" maxlength="3" autocomplete="off"></div>
  <div style="text-align:center"><button class="lk" id="pa"></button></div>
@@ -79,13 +81,15 @@ fa:{dir:"rtl",ttl:"ساعات کار",add:"+ ثبت ساعت کار",ne:"ثبت 
 tr:{dir:"ltr",ttl:"Çalışma Saatleri",add:"+ Çalışma saati ekle",ne:"Yeni kayıt",ed:"Kaydı düzenle",s:"Başlangıç",e:"Bitiş",p:"Mola (dk.)",pa:"+ Mola",sv:"Kaydet",del:"Sil",sure:"Emin misin? Tekrar dokun",tot:"Bu ayki toplam",h:"sa",min:"dk",days:"gün",cols:["Tarih","Başlangıç","Bitiş","Mola","Süre"],empty:"Bu ay için kayıt yok.",pdf:"PDF olarak dışa aktar",hint:"",dl:"PDF’yi aç",bk:"Yedek kaydet",rs:"Yedeği geri yükle",rsok:"Yedek geri yüklendi.",rserr:"Dosya okunamadı.",rem:"İpucu: Ayda bir kez yedek kaydet.",err:"Lütfen başlangıç ve bitiş saatini gir, örn. 0830.",rep:"Çalışma Saati Raporu",loc:"tr-TR"}
 };
 T.de.dir="ltr";
+const UV={de:"Urlaub",fa:"Urlaub",tr:"İzin"},UVMIN=300;let uv=false;
+function applyUv(){$("uvb").classList.toggle("on",uv);$("uvb").textContent="🏖️ "+UV[lang]+" (+5 "+T[lang].h+")";document.querySelector(".tt").hidden=uv;if(uv){$("bx").hidden=true;$("pa").hidden=true}else{const has=$("p").value!=="";$("bx").hidden=!has;$("pa").hidden=has}}
 const $=id=>document.getElementById(id),z=x=>String(x).padStart(2,"0");
 let lang="de",rows=[],last={s:"08:00",e:"16:30"},editId=null,cur="",sure=false;
 try{lang=localStorage.getItem("az_lang")||"de";rows=JSON.parse(localStorage.getItem("az_rows")||"[]");last=JSON.parse(localStorage.getItem("az_last")||"null")||last}catch(e){}
 if(!T[lang])lang="de";
 function save(){try{localStorage.setItem("az_rows",JSON.stringify(rows));localStorage.setItem("az_lang",lang);localStorage.setItem("az_last",JSON.stringify(last))}catch(e){}}
 const toMin=t=>{const[a,b]=t.split(":").map(Number);return a*60+b};
-function dur(r){let d=toMin(r.e)-toMin(r.s);if(d<0)d+=1440;return Math.max(0,d-(r.p||0))}
+function dur(r){if(r.u)return UVMIN;let d=toMin(r.e)-toMin(r.s);if(d<0)d+=1440;return Math.max(0,d-(r.p||0))}
 const hm=m=>{const t=T[lang];return Math.floor(m/60)+" "+t.h+" "+z(m%60)+" "+t.min};
 const fd=s=>s.split("-").reverse().join(".");
 const dt=s=>new Date(s+"T12:00:00");
@@ -112,7 +116,7 @@ function render(){
  $("tot").textContent=hm(sum);
  $("dec").textContent="= "+(sum/60).toFixed(2)+" "+t.h+" · "+new Set(list.map(r=>r.d)).size+" "+t.days;
  $("lst").innerHTML=list.length?list.map(r=>{const d=dt(r.d);
-  return "<div class='it' data-i='"+r.id+"'><div class='dd'><b>"+d.getDate()+"</b><span>"+lf(d,{weekday:"short"})+"</span></div><div class='mid'><div class='tm' dir='ltr'>"+r.s+" – "+r.e+"</div>"+(r.p?"<div class='mu'>"+t.cols[3]+" "+r.p+" "+t.min+"</div>":"")+"</div><div class='du'>"+hm(dur(r))+"</div></div>"}).join("")
+  return "<div class='it' data-i='"+r.id+"'><div class='dd'><b>"+d.getDate()+"</b><span>"+lf(d,{weekday:"short"})+"</span></div><div class='mid'><div class='tm' dir='ltr'>"+(r.u?"🏖️ "+UV[lang]:r.s+" – "+r.e)+"</div>"+(r.p?"<div class='mu'>"+t.cols[3]+" "+r.p+" "+t.min+"</div>":"")+"</div><div class='du'>"+hm(dur(r))+"</div></div>"}).join("")
   :"<div class='empty'>"+t.empty+"</div>";
 }
 function showDate(){$("dtx").textContent=lf(dt(cur||ymd(new Date())),{weekday:"short",day:"numeric",month:"long",year:"numeric"});$("d").value=cur}
@@ -122,10 +126,10 @@ function openSheet(id){
  const t=T[lang],r=rows.find(x=>x.id===id);editId=r?id:null;sure=false;
  cur=r?r.d:ymd(new Date());
  $("shT").textContent=r?t.ed:t.ne;
- $("s").value=r?r.s:last.s;$("e").value=r?r.e:last.e;
+ $("s").value=r?r.s:"";$("e").value=r?r.e:"";uv=!!(r&&r.u);
  $("p").value=r&&r.p?r.p:"";$("bx").hidden=!(r&&r.p);$("pa").hidden=!!(r&&r.p);
  $("delb").hidden=!r;$("delb").textContent=t.del;$("err").textContent="";
- $("bk").hidden=$("sh").hidden=false;showDate();
+ $("bk").hidden=$("sh").hidden=false;showDate();applyUv();
 }
 function closeSheet(){$("bk").hidden=$("sh").hidden=true}
 $("mp").onclick=()=>setMonth(-1);$("mx").onclick=()=>setMonth(1);
@@ -133,13 +137,14 @@ $("dp").onclick=()=>shift(-1);$("dn").onclick=()=>shift(1);
 $("d").onchange=()=>{if($("d").value){cur=$("d").value;showDate()}};
 $("add").onclick=()=>openSheet(null);
 $("bk").onclick=closeSheet;
+$("uvb").onclick=()=>{uv=!uv;applyUv()};
 $("lst").onclick=ev=>{const i=ev.target.closest(".it");if(i)openSheet(+i.dataset.i)};
 $("pa").onclick=()=>{$("bx").hidden=false;$("pa").hidden=true;$("p").focus()};
 $("sv").onclick=()=>{
  const s=parseT($("s").value),e=parseT($("e").value),p=parseInt($("p").value)||0;
- if(!s||!e){$("err").textContent=T[lang].err;return}
- if(editId){const r=rows.find(x=>x.id===editId);Object.assign(r,{d:cur,s,e,p})}else rows.push({id:Date.now(),d:cur,s,e,p});
- last={s,e};save();$("m").value=cur.slice(0,7);closeSheet();render();
+ if(!uv&&(!s||!e)){$("err").textContent=T[lang].err;return}
+ if(editId){const r=rows.find(x=>x.id===editId);Object.assign(r,{d:cur,s:uv?"":s,e:uv?"":e,p:uv?0:p,u:uv})}else rows.push({id:Date.now(),d:cur,s:uv?"":s,e:uv?"":e,p:uv?0:p,u:uv});
+ if(!uv)last={s,e};save();$("m").value=cur.slice(0,7);closeSheet();render();
 };
 $("delb").onclick=()=>{
  if(!sure){sure=true;$("delb").textContent=T[lang].sure;return}
@@ -162,7 +167,7 @@ function makePdf(){
   let y=mg+170;x.font="bold 28px "+F;t.cols.forEach((h,i)=>x.fillText(h,X(off[i]),y));
   x.fillStyle="#000";x.fillRect(mg,y+14,W-2*mg,2);y+=lh+8;x.font="28px "+F;
   list.slice(p*per,p*per+per).forEach(r=>{
-   [fd(r.d),r.s,r.e,(r.p||0)+" min",hm(dur(r))].forEach((v,i)=>x.fillText(v,X(off[i]),y));
+   (r.u?[fd(r.d),UV[lang],"","",hm(dur(r))]:[fd(r.d),r.s,r.e,(r.p||0)+" min",hm(dur(r))]).forEach((v,i)=>x.fillText(v,X(off[i]),y));
    y+=lh;
   });
   if(!list.length)x.fillText(t.empty,X(0),y);
@@ -215,7 +220,7 @@ $("rf").onchange=async()=>{
  try{
   const j=JSON.parse(await $("rf").files[0].text());if(!Array.isArray(j.rows))throw 0;
   const have=new Set(rows.map(r=>r.id));
-  j.rows.forEach(r=>{if(r&&r.d&&r.s&&r.e&&!have.has(r.id))rows.push({id:r.id||Date.now()+Math.floor(Math.random()*1e6),d:r.d,s:r.s,e:r.e,p:r.p||0})});
+  j.rows.forEach(r=>{if(r&&r.d&&(r.u||(r.s&&r.e))&&!have.has(r.id))rows.push({id:r.id||Date.now()+Math.floor(Math.random()*1e6),d:r.d,s:r.s||"",e:r.e||"",p:r.p||0,u:!!r.u})});
   save();render();$("hint").textContent=T[lang].rsok;
  }catch(e){$("hint").textContent=T[lang].rserr}
  $("rf").value="";
