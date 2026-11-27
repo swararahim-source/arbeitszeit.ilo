@@ -51,6 +51,7 @@ label.t{display:block;font-size:14px;color:var(--mu);margin-bottom:4px;text-alig
 <input type="hidden" id="m">
 <div class="card">
  <div class="mu" id="ltot"></div><div class="tot" id="tot"></div><div class="mu" id="dec"></div><div class="mu" id="fw" style="margin-top:6px"></div>
+ <input id="nm" autocomplete="name" style="width:100%;margin-top:12px;font:inherit;padding:12px;border:1px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--tx);min-height:50px">
  <button class="sec" id="pdf" style="width:100%;margin-top:12px"></button>
  <button class="sec" id="pdf2" style="width:100%;margin-top:8px"></button>
  <button class="sec" id="bkb" style="width:100%;margin-top:8px"></button>
@@ -65,7 +66,7 @@ label.t{display:block;font-size:14px;color:var(--mu);margin-bottom:4px;text-alig
 <div id="sh" hidden>
  <h2 id="shT"></h2>
  <div class="dn"><button class="ar" id="dp"></button><label class="dl"><span id="dtx"></span><input type="date" id="d"></label><button class="ar" id="dn"></button></div>
- <div style="display:flex;gap:8px;margin-bottom:12px"><button class="sec" id="uvb" style="flex:1;font-size:15px;padding:0 8px"></button><button class="sec" id="fwb" style="flex:1;font-size:15px;padding:0 8px"></button></div>
+ <div style="display:flex;gap:8px;margin-bottom:12px"><button class="sec" id="uvb" style="flex:1;font-size:15px;padding:0 8px"></button><button class="sec" id="fwb" style="flex:1;font-size:14px;padding:0 8px"></button></div>
  <div class="tt">
   <div><label class="t" id="ls"></label><input class="big" id="s" inputmode="numeric" placeholder="--:--" maxlength="5" autocomplete="off"></div>
   <div><label class="t" id="le"></label><input class="big" id="e" inputmode="numeric" placeholder="--:--" maxlength="5" autocomplete="off"></div>
@@ -84,8 +85,8 @@ tr:{dir:"ltr",ttl:"Çalışma Saatleri",add:"+ Çalışma saati ekle",ne:"Yeni k
 ku:{dir:"rtl",ttl:"کاتژمێرەکانی کار",add:"+ زیادکردنی کاتی کار",ne:"تۆمارێکی نوێ",ed:"دەستکاریکردن",s:"دەستپێک",e:"کۆتایی",p:"پشوو (خولەک)",pa:"+ پشوو",sv:"پاشەکەوتکردن",del:"سړینەوە",sure:"دڵنیایت؟ دووبارە دەست لێبدە",tot:"کۆی ئەم مانگە",h:"کاتژمێر",min:"خولەک",days:"ڕۆژ",cols:["بەروار","دەستپێک","کۆتایی","پشوو","ماوە"],empty:"لەم مانگەدا هیچ تۆمارێک نییە.",pdf:"دەرهێنانی PDF",hint:"",dl:"کردنەوەی PDF",bk:"پاشەکەوتکردنی پاشپەره",rs:"گەڕاندنەوەی پاشپەره",rsok:"زانیارییەکان گەڕانەوە.",rserr:"فایلەکە نەخوێندرایەوە.",rem:"تێبینی: مانگی جارێک پاشپەره پاشەکەوت بکە.",err:"کاتی دەستپێک و کۆتایی بنووسە، بۆ نموونە 0830.",rep:"ڕاپۆرتی کاتی کار",loc:"de-DE"}
 };
 T.de.dir="ltr";
-const UV={de:"Urlaub",fa:"Urlaub",tr:"İzin",ku:"Urlaub"},UVMIN=300;let uv=false,fe=false;const NF={de:"Keine Fewo-Einträge in diesem Monat.",fa:"در این ماه موردی برای Fewo ثبت نشده.",tr:"Bu ay Fewo kaydı yok.",ku:"لەم مانگەدا تۆماری Fewo نییە."};const OF={de:"ohne Fewo",fa:"بدون Fewo",tr:"Fewo hariç",ku:"بێ Fewo"},GS={de:"Gesamt",fa:"مجموع کل",tr:"Genel toplam",ku:"کۆی گشتی"};
-function applyUv(){$("fwb").classList.toggle("on",fe);$("fwb").textContent="🏠 Fewo";$("uvb").classList.toggle("on",uv);$("uvb").textContent="🏖️ "+UV[lang]+" (+5 "+T[lang].h+")";document.querySelector(".tt").hidden=uv;if(uv){$("bx").hidden=true;$("pa").hidden=true}else{const has=$("p").value!=="";$("bx").hidden=!has;$("pa").hidden=has}}
+const UV={de:"Urlaub",fa:"Urlaub",tr:"İzin",ku:"Urlaub"},UVMIN=300;let uv=false,fe=false;const NF={de:"Keine Ferienwohnung-Einträge in diesem Monat.",fa:"در این ماه موردی برای Ferienwohnung ثبت نشده.",tr:"Bu ay Ferienwohnung kaydı yok.",ku:"لەم مانگەدا تۆماری Ferienwohnung نییە."};const OF={de:"ohne Ferienwohnung",fa:"بدون Ferienwohnung",tr:"Ferienwohnung hariç",ku:"بێ Ferienwohnung"},GS={de:"Gesamt",fa:"مجموع کل",tr:"Genel toplam",ku:"کۆی گشتی"};
+function applyUv(){$("fwb").classList.toggle("on",fe);$("fwb").textContent="🏠 Ferienwohnung";$("uvb").classList.toggle("on",uv);$("uvb").textContent="🏖️ "+UV[lang]+" (+5 "+T[lang].h+")";document.querySelector(".tt").hidden=uv;if(uv){$("bx").hidden=true;$("pa").hidden=true}else{const has=$("p").value!=="";$("bx").hidden=!has;$("pa").hidden=has}}
 const $=id=>document.getElementById(id),z=x=>String(x).padStart(2,"0");
 let lang="de",rows=[],last={s:"08:00",e:"16:30"},editId=null,cur="",sure=false;
 try{lang=localStorage.getItem("az_lang")||"de";rows=JSON.parse(localStorage.getItem("az_rows")||"[]");last=JSON.parse(localStorage.getItem("az_last")||"null")||last}catch(e){}
@@ -107,7 +108,7 @@ function parseT(v){const d=v.replace(/\D/g,"");if(!d)return null;let h,m;if(d.le
 function tx(){
  const t=T[lang],rtl=t.dir==="rtl";
  document.documentElement.lang=lang;document.documentElement.dir=t.dir;
- $("lb").value=lang;$("ttl").textContent=t.ttl;$("add").textContent=t.add;$("ltot").textContent=t.tot;$("pdf").textContent=t.pdf;$("pdf2").textContent=t.pdf+" – Fewo";
+ $("lb").value=lang;$("ttl").textContent=t.ttl;$("add").textContent=t.add;$("ltot").textContent=t.tot;$("pdf").textContent=t.pdf;$("nm").placeholder=L[lang].nm+" (PDF)";$("pdf2").textContent=t.pdf+" – Ferienwohnung";
  $("bkb").textContent=t.bk;$("rs").textContent=t.rs;$("ls").textContent=t.s;$("le").textContent=t.e;$("lp").textContent=t.p;$("pa").textContent=t.pa;$("sv").textContent=t.sv;
  $("mp").textContent=$("dp").textContent=rtl?"›":"‹";$("mx").textContent=$("dn").textContent=rtl?"‹":"›";
  render();showDate();
@@ -119,9 +120,9 @@ function render(){
  const sum=list.reduce((a,r)=>a+dur(r),0);
  const fs=list.filter(r=>r.f).reduce((a,r)=>a+dur(r),0),ms=sum-fs;$("tot").textContent=hm(ms);
  $("dec").textContent="= "+(ms/60).toFixed(2)+" "+t.h+" · "+new Set(list.filter(r=>!r.f).map(r=>r.d)).size+" "+t.days;
- $("fw").textContent=fs?"Fewo: "+hm(fs)+" · "+GS[lang]+": "+hm(sum):"";$("ltot").textContent=t.tot+(fs?" ("+OF[lang]+")":"");
+ $("fw").textContent=fs?"Ferienwohnung: "+hm(fs)+" · "+GS[lang]+": "+hm(sum):"";$("ltot").textContent=t.tot+(fs?" ("+OF[lang]+")":"");
  $("lst").innerHTML=list.length?list.map(r=>{const d=dt(r.d);
-  return "<div class='it' data-i='"+r.id+"'><div class='dd'><b>"+d.getDate()+"</b><span>"+lf(d,{weekday:"short"})+"</span></div><div class='mid'><div class='tm' dir='ltr'>"+(r.u?"🏖️ "+UV[lang]:r.s+" – "+r.e)+(r.f?" <span class='bd'>Fewo</span>":"")+"</div>"+(r.p?"<div class='mu'>"+t.cols[3]+" "+r.p+" "+t.min+"</div>":"")+"</div><div class='du'>"+hm(dur(r))+"</div></div>"}).join("")
+  return "<div class='it' data-i='"+r.id+"'><div class='dd'><b>"+d.getDate()+"</b><span>"+lf(d,{weekday:"short"})+"</span></div><div class='mid'><div class='tm' dir='ltr'>"+(r.u?"🏖️ "+UV[lang]:r.s+" – "+r.e)+(r.f?" <span class='bd'>Ferienwohnung</span>":"")+"</div>"+(r.p?"<div class='mu'>"+t.cols[3]+" "+r.p+" "+t.min+"</div>":"")+"</div><div class='du'>"+hm(dur(r))+"</div></div>"}).join("")
   :"<div class='empty'>"+t.empty+"</div>";
 }
 function showDate(){$("dtx").textContent=lf(dt(cur||ymd(new Date())),{weekday:"short",day:"numeric",month:"long",year:"numeric"});$("d").value=cur}
@@ -156,32 +157,57 @@ $("delb").onclick=()=>{
  rows=rows.filter(r=>r.id!==editId);save();closeSheet();render();
 };
 $("lb").onchange=()=>{lang=$("lb").value;save();tx()};
+const L={
+de:{nm:"Name",mo:"Monat",td:"Arbeitstage",s1:"Unterschrift Mitarbeiter/in",s2:"Unterschrift Arbeitgeber",pg:"Seite",cr:"Erstellt am"},
+fa:{nm:"نام",mo:"ماه",td:"روز کاری",s1:"امضای کارمند",s2:"امضای کارفرما",pg:"صفحه",cr:"تاریخ تهیه"},
+tr:{nm:"Ad Soyad",mo:"Ay",td:"çalışılan gün",s1:"Çalışan imzası",s2:"İşveren imzası",pg:"Sayfa",cr:"Oluşturulma tarihi"},
+ku:{nm:"ناو",mo:"مانگ",td:"ڕۆژی کار",s1:"واژۆی کارمەند",s2:"واژۆی خاوەنکار",pg:"لاپەڕە",cr:"بەرواری دروستکردن"}};
 function makePdf(fw){
- const t=T[lang],m=$("m").value,rtl=t.dir==="rtl";
+ const t=T[lang],l=L[lang],m=$("m").value,rtl=t.dir==="rtl";
  const list=rows.filter(r=>r.d.startsWith(m)&&!!r.f===!!fw).sort((a,b)=>(a.d+a.s).localeCompare(b.d+b.s));
- const sum=list.reduce((a,r)=>a+dur(r),0);
- const W=1240,H=1754,mg=100,lh=48,per=26,off=[0,250,400,550,720];
+ const sum=list.reduce((a,r)=>a+dur(r),0),nm=($("nm").value||"").trim(),days=new Set(list.map(r=>r.d)).size;
+ const W=1240,H=1754,mg=90,rh=50,per=16,off=[0,250,410,570,730],F="-apple-system,Helvetica,Arial,sans-serif",NAVY="#1f3a5f",ZEB="#f1f4f9";
  const pages=Math.max(1,Math.ceil(list.length/per)),imgs=[];
+ const mon=lf(dt(m+"-01"),{month:"long",year:"numeric"}),title=(fw?"Ferienwohnung – ":"")+t.rep;
+ const now=new Date(),cd=z(now.getDate())+"."+z(now.getMonth()+1)+"."+now.getFullYear();
  for(let p=0;p<pages;p++){
   const c=document.createElement("canvas");c.width=W;c.height=H;
-  const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,W,H);x.fillStyle="#000";
-  x.direction=rtl?"rtl":"ltr";x.textAlign=rtl?"right":"left";
-  const X=o=>rtl?W-mg-o:mg+o,F="-apple-system,Helvetica,Arial,sans-serif";
-  x.font="bold 44px "+F;x.fillText((fw?"Fewo – ":"")+t.rep+" – "+m.split("-").reverse().join("/"),X(0),mg+40);
-  x.font="26px "+F;x.fillStyle="#555";x.fillText((p+1)+" / "+pages,X(0),mg+85);
-  let y=mg+170;x.font="bold 28px "+F;t.cols.forEach((h,i)=>x.fillText(h,X(off[i]),y));
-  x.fillStyle="#000";x.fillRect(mg,y+14,W-2*mg,2);y+=lh+8;x.font="28px "+F;
-  list.slice(p*per,p*per+per).forEach(r=>{
-   (r.u?[fd(r.d),UV[lang],"","",hm(dur(r))]:[fd(r.d),r.s,r.e,(r.p||0)+" min",hm(dur(r))]).forEach((v,i)=>x.fillText(v,X(off[i]),y));
-   y+=lh;
+  const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,W,H);x.direction=rtl?"rtl":"ltr";
+  const X=o=>rtl?W-mg-o:mg+o,A=rtl?"right":"left",B=rtl?"left":"right";
+  const L1=(s,o,y,f,col,mw)=>{x.font=f;x.fillStyle=col;x.textAlign=A;x.fillText(s,X(o),y,mw)};
+  const R1=(s,y,f,col,pd)=>{x.font=f;x.fillStyle=col;x.textAlign=B;x.fillText(s,rtl?mg+(pd||0):W-mg-(pd||0),y)};
+  const LN=(o,w,y)=>{x.fillStyle="#222";x.fillRect(rtl?W-mg-o-w:mg+o,y,w,2)};
+  x.fillStyle=NAVY;x.fillRect(0,0,W,180);
+  L1(title,0,108,"bold 46px "+F,"#fff",W-2*mg);
+  x.fillStyle=ZEB;x.fillRect(mg,225,W-2*mg,130);
+  L1(l.nm,24,270,"24px "+F,"#6b7585");L1(nm||"—",24,322,"bold 36px "+F,"#111",480);
+  L1(l.mo,590,270,"24px "+F,"#6b7585");L1(mon,590,322,"bold 36px "+F,"#111",440);
+  x.fillStyle=NAVY;x.fillRect(mg,395,W-2*mg,60);
+  t.cols.forEach((h,i)=>L1(h,off[i]+16,435,"bold 26px "+F,"#fff"));
+  const part=list.slice(p*per,p*per+per),n=Math.max(1,part.length);
+  part.forEach((r,i)=>{
+   const yy=455+i*rh;
+   if(i%2){x.fillStyle=ZEB;x.fillRect(mg,yy,W-2*mg,rh)}
+   (r.u?[fd(r.d),UV[lang],"","",hm(dur(r))]:[fd(r.d),r.s,r.e,(r.p||0)+" min",hm(dur(r))]).forEach((v,j)=>L1(v,off[j]+16,yy+34,(j===4?"bold ":"")+"27px "+F,"#111"));
+   x.fillStyle="#dde3ec";x.fillRect(mg,yy+rh-1,W-2*mg,1);
   });
-  if(!list.length)x.fillText(t.empty,X(0),y);
+  if(!list.length)L1(t.empty,16,455+34,"27px "+F,"#6b7585");
+  const yE=455+n*rh;x.fillStyle=NAVY;x.fillRect(mg,yE,W-2*mg,3);
   if(p===pages-1){
-   y+=30;x.fillRect(mg,y-34,W-2*mg,2);x.font="bold 34px "+F;
-   x.fillText(t.tot+": "+hm(sum)+" ("+(sum/60).toFixed(2)+" "+t.h+")",X(0),y+20);
+   const y0=yE+40;
+   x.fillStyle="#e8f0fb";x.fillRect(mg,y0,W-2*mg,150);x.fillStyle=NAVY;x.fillRect(rtl?W-mg-8:mg,y0,8,150);
+   L1(t.tot,28,y0+55,"26px "+F,"#35507a",520);
+   L1(days+" "+l.td,28,y0+110,"24px "+F,"#6b7585",520);
+   R1(hm(sum),y0+78,"bold 46px "+F,NAVY,28);
+   R1("= "+(sum/60).toFixed(2)+" "+t.h,y0+122,"26px "+F,"#35507a",28);
+   const ys=H-230;LN(0,440,ys);LN(580,440,ys);
+   L1(l.s1,0,ys+42,"22px "+F,"#6b7585",440);L1(l.s2,580,ys+42,"22px "+F,"#6b7585",440);
   }
-  const b=atob(c.toDataURL("image/jpeg",0.92).split(",")[1]),u=new Uint8Array(b.length);
-  for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);
+  x.fillStyle="#c8d0dc";x.fillRect(mg,H-110,W-2*mg,1);
+  L1(l.cr+": "+cd,0,H-66,"22px "+F,"#8a93a3");
+  R1(l.pg+" "+(p+1)+" / "+pages,H-66,"22px "+F,"#8a93a3");
+  const bb=atob(c.toDataURL("image/jpeg",0.92).split(",")[1]),u=new Uint8Array(bb.length);
+  for(let i=0;i<bb.length;i++)u[i]=bb.charCodeAt(i);
   imgs.push(u);
  }
  const en=s=>new TextEncoder().encode(s),ch=[],of=[];let len=0;
@@ -207,7 +233,7 @@ async function doPdf(fw){
  const t=T[lang],m=$("m").value;$("hint").textContent="";
  if(fw&&!rows.some(r=>r.f&&r.d.startsWith(m))){$("hint").textContent=NF[lang];return}
  let blob;try{blob=makePdf(fw)}catch(e){$("hint").textContent="PDF error: "+e.message;return}
- const name=(fw?"Fewo-":"Arbeitszeit-")+m+".pdf";
+ const name=(fw?"Ferienwohnung-":"Arbeitszeit-")+m+".pdf";
  const file=new File([blob],name,{type:"application/pdf"});
  try{
   if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:name});return}
@@ -234,6 +260,8 @@ $("rf").onchange=async()=>{
  $("rf").value="";
 };
 try{const b=+localStorage.getItem("az_bk")||0;if(rows.length&&Date.now()-b>30*864e5)setTimeout(()=>{$("hint").textContent=T[lang].rem},0)}catch(e){}
+try{$("nm").value=localStorage.getItem("az_name")||""}catch(e){}
+$("nm").oninput=()=>{try{localStorage.setItem("az_name",$("nm").value)}catch(e){}};
 $("m").value=ymd(new Date()).slice(0,7);
 tx();
 </script></body></html>
